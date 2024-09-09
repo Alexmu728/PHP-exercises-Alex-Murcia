@@ -31,7 +31,6 @@
 
             echo "$num1<br>$num2<br>$num3<br>";
             echo "The biggest number is $biggest";
-
 		?>
 
 	</body>

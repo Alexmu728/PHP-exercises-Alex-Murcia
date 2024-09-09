@@ -19,7 +19,6 @@
 
 			echo " $floors floors have $doors doors."
 		?>
-
 	</body>
 
 </html>
