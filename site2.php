@@ -15,6 +15,7 @@
 		<?php
 
 			$biggest=0;
+            
             $num1 = rand(1, 100);
             $num2 = rand(1, 100);
             $num3 = rand(1, 100);

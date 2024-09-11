@@ -15,9 +15,15 @@
 		<?php
 
 		
-            $word= "anana"
-            
+			$word = "ananan";
 
+			$reverse =  strrev($word);
+
+			if($word == $reverse){
+				echo "It is plaindrome";
+			} else {
+				echo "It is not palindrome"; 
+			}
 
 		?>
 
