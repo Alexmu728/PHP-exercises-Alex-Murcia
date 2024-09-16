@@ -24,9 +24,6 @@
                 $array[$key]=strlen($key);
             }
             var_dump($array);
-
-            
-
 		?>
 
 	</body>
