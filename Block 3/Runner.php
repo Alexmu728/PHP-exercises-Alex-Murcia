@@ -49,11 +49,6 @@
 
             }
 
-            class Competition{
-        
-
-            }
-
 		?>
 
 	</body>
