@@ -46,28 +46,35 @@
                 $competition-> addRaceToRunner("A1", 20);
                 $competition-> addRaceToRunner("A1", 23);
                 $competition-> addRaceToRunner("A2", 10);
-                $competition-> addRaceToRunner("A3", 20);
-                $competition-> addRaceToRunner("A3", 20);
-                $competition-> addRaceToRunner("A3", 20);
-                $competition-> addRaceToRunner("A4", 20);
-                $competition-> addRaceToRunner("A5", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
-                $competition-> addRaceToRunner("A1", 20);
+                $competition-> addRaceToRunner("A3", 19);
+                $competition-> addRaceToRunner("A3", 4);
+                $competition-> addRaceToRunner("A3", 2);
+                $competition-> addRaceToRunner("A4", 10);
+                $competition-> addRaceToRunner("A5", 5);
+                $competition-> addRaceToRunner("A5", 7);
+                $competition-> addRaceToRunner("A5", 8);
+                $competition-> addRaceToRunner("A6", 11);
+                $competition-> addRaceToRunner("A6", 8);
+                $competition-> addRaceToRunner("A7", 30);
+                $competition-> addRaceToRunner("A8", 5);
+                $competition-> addRaceToRunner("A9", 4);
+                $competition-> addRaceToRunner("A9", 1);
+                $competition-> addRaceToRunner("A10", 17);
+                $competition-> addRaceToRunner("A10", 14);
+                $competition-> addRaceToRunner("A10", 5);
+                $competition-> addRaceToRunner("A11", 2);
+                $competition-> addRaceToRunner("A12", 16);
 
+		echo "Average time of the 1st race: ".$competition->averageFirstRaceTime()." seconds<br>";
+		    
+	    	echo "Runner with the quickest race: ".$competition->quickestRace()."<br>";
 
-                
-
+	    	$long=$competition->runnersWithMoreThanTwoLongRaces();
+	    	echo "Runners with more than two races over 15 seconds: ".implode(", ", $long)."<br>";
+		    
+	    	$endE = $competition->runnersWithNameEndingInE();
+	   	echo "Runners whose names end with 'e': ".implode(", ", $endE)."<br>";
+	
             }catch(Exception $e){
                 echo $e-> getMessage();
             }
