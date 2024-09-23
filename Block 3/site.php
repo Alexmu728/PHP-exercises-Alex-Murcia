@@ -18,9 +18,9 @@
                 private $name;
                 private $code;
                 private $raceTimes=array();
-                /*private $times;
+                private $times;
                 private $race;
-
+                /*
                 public function __construct($name, $code, $raceTimes) {
                     $this->name=$name;
                     $this->code=$code;
@@ -30,13 +30,13 @@
                 }*/
 
                 public function addRace(){
-
+                    
                 }
 
             }
 
             class Competition{
-                
+
             }
 
 		?>
