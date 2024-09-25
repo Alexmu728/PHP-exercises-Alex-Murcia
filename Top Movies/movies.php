@@ -12,6 +12,52 @@
 
 	<body>
 
+    <?php
+        
+        $movies=[];
+
+            if($_SERVER["REQUEST_METHOD"]=="POST"){
+                $name=$_POST["name"];
+                $isan=$_POST["isan"];
+                $year=$_POST["year"];
+                $punctuation=$_POST["punctuation"];
+            
+                if(empty($name) && empty($isan)){
+                    echo "The name and the isan are empty";
+                }elseif(!empty($isan) && strlen($isan)== 8){
+                    if(!empty($name) && !empty($year) && !empty($punctuation)){
+                        $existingMovie=false;
+                        foreach($movies as &$movie){
+                            if($movie["isan"]==$isan){
+                                $movie["name"]=$name;
+                                $movie["year"]=$year;
+                                $movie["punctuation"]=$punctuation;
+                                $existingMovie=true;
+                                echo "Movie modified. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
+                            }
+                        }
+                        if($existingMovie==false){
+                            $movies[]= ["name"=>$name, "year"=>$year, "isan"=>$isan, "punctuation"=>$punctuation];
+                            echo "Movie registered. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
+                        }
+                    }else{
+                        echo "Not all the fields have value";
+                    }
+                }elseif(empty($isan) && !empty($name)){
+                    foreach($movies as $movie){
+                        if(stripos($movie["name"], $name)!= false){
+                            echo "<li>".$movie["name"]." ".$movie["year"]."</li>";
+                        }else{
+                            echo "<li>No movies found</li>";
+                        }
+                    }
+                }else{
+                    echo "Error";
+                }
+            }
+            
+		?>
+
         <div style="height:50%;">
         
 
@@ -44,53 +90,7 @@
             </form>
         </div>
 
-		<?php
-        
-        $movies=array();
-
-            if($_SERVER["REQUEST_METHOD"]=="POST"){
-                $name=$_POST["name"];
-                $isan=$_POST["isan"];
-                $year=$_POST["year"];
-                $punctuation=$_POST["punctuation"];
-            }
-
-            if(empty($name) && empty($isan)){
-                echo "The name and the isan are empty";
-            }else if(!empty($isan) && strlen($isan)== 8){
-                if(!empty($name) && !empty($year) && !empty($punctuation)){
-                    foreach($movies as $movie){
-                        if($movie[$isan]==$isan){
-                            $movie[$name]=$name;
-                            $movie[$year]=$year;
-                            $movie[$punctuation]=$punctuation;
-                            echo "Movie modified. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
-                        }else{
-                            $movie[$name]=$name;
-                            $movie[$year]=$year;
-                            $movie[$isan]=$isan;
-                            $movie[$punctuation]=$punctuation;
-                            echo "Movie registered. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
-                        }
-                    }
-                }else{
-                    echo "Not all the fields have value";
-                }
-            }else if(empty($isan) && !empty($name)){
-                foreach($movies as $movie){
-                    foreach($movie[$name] as $moviename){
-                        if($moviename == $name){
-                            echo"<ul>$moviename</ul>";
-                        }
-                    }
-                }
-            }else{
-                echo "Error";
-            }
-
-            
-            
-		?>
+		
 
 	</body>
 
