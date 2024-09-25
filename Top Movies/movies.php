@@ -27,6 +27,8 @@
                 }elseif(!empty($isan) && strlen($isan)== 8){
                     if(!empty($name) && !empty($year) && !empty($punctuation)){
                         $existingMovie=false;
+                        $existingIsan=false;
+
                         foreach($movies as &$movie){
                             if($movie["isan"]==$isan){
                                 $movie["name"]=$name;
@@ -34,11 +36,23 @@
                                 $movie["punctuation"]=$punctuation;
                                 $existingMovie=true;
                                 echo "Movie modified. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
+                                break;
                             }
                         }
-                        if($existingMovie==false){
-                            $movies[]= ["name"=>$name, "year"=>$year, "isan"=>$isan, "punctuation"=>$punctuation];
+                        if(!$existingMovie){
+                            foreach($movies as $movie){
+                                if($movie["isan"]==$isan){
+                                    $existingIsan=true;
+                                    break;
+                                }
+                            }
+
+                            if($existingIsan){
+                                echo "You are trying to register an ISAN number that has already been added.";
+                            }else{
+                                $movies[]= ["name"=>$name, "year"=>$year, "isan"=>$isan, "punctuation"=>$punctuation];
                             echo "Movie registered. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
+                            }
                         }
                     }else{
                         echo "Not all the fields have value";
