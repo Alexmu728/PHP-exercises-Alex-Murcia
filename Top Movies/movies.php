@@ -1,20 +1,11 @@
-<!DOCTYPE HTML>
+<?php
+        session_start();
 
-<html>
-
-	<head>
-
-		<meta charset="utf-8">
-
-		<title></title>
-
-	</head>
-
-	<body>
-
-    <?php
+        if(!isset($_SESSION["movies"])){
+            $_SESSION["movies"]=[];
+        }
         
-        $movies=[];
+        $movies=$_SESSION["movies"];
 
             if($_SERVER["REQUEST_METHOD"]=="POST"){
                 $name=$_POST["name"];
@@ -71,8 +62,21 @@
             }
             
 		?>
+<!DOCTYPE HTML>
 
-        <div style="height:50%;">
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+
+		<title></title>
+
+	</head>
+
+	<body>
+
+        <div style="height:10%;">
         
 
         </div>
