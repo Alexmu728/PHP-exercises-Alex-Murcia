@@ -29,14 +29,17 @@
                                 break;
                             }
                         }
-                        if(!$existingIsan){
+                        if($existingIsan){
+                            echo "You are trying to register an ISAN number that has already been added.</br>";
+                        }else{
                             $movies[]= ["name"=>$name, "year"=>$year, "isan"=>$isan, "punctuation"=>$punctuation];
-                            echo "Movie registered. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
+                        echo "Movie registered. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
                         }
+                        
                     }else{
                         echo "Not all the fields have value</br>";
                     }
-                }elseif(empty($isan) && !empty($name)){
+                }elseif(empty($isan) && !empty($name) && empty($year) && empty($punctuation)){
                     $founded=false;
                     foreach($movies as $movie){
                         if(stripos($movie["name"], $name)!= false){
@@ -101,7 +104,15 @@
             </form>
         </div>
 
-		
+        <h2>Current Movies:</h2>
+        <ul>
+            <?php
+
+            foreach($movies as $movie){
+                echo "<li>".$movie["name"]." (".$movie["year"] . "), ISAN: ".$movie["isan"] . ", Punctuation: ".$movie["punctuation"] . "</li>";
+            }
+            ?>
+        </ul>
 
 	</body>
 
