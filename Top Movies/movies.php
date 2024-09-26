@@ -16,30 +16,35 @@
                 if(empty($name) && empty($isan)){
                     echo "The name and the isan are empty</br>";
                 }elseif(!empty($isan) && strlen($isan)== 8){
-                    if(!empty($name) && !empty($year) && !empty($punctuation)){
-                        $existingIsan=false;
+                    $existingIsan=false;
 
-                        foreach($movies as &$movie){
-                            if($movie["isan"]==$isan){
+                    foreach($movies as &$movie){
+                        if($movie["isan"]==$isan){
+                            $existingIsan=true;
+
+                            if(!empty($name) && !empty($year) && !empty($punctuation)){
                                 $movie["name"]=$name;
                                 $movie["year"]=$year;
                                 $movie["punctuation"]=$punctuation;
-                                $existingIsan=true;
                                 echo "Movie modified. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation</br>";
-                                break;
+                            }else{
+                                $key=array_search($movie, $movies);
+                                unset($movies[$key]);
+                                echo "Movie with ISAN $isan deleted</br>";
                             }
+                            break;
                         }
-                        if($existingIsan){
-                            echo "You are trying to register an ISAN number that has already been added.</br>";
-                        }else{
-                            $movies[]= ["name"=>$name, "year"=>$year, "isan"=>$isan, "punctuation"=>$punctuation];
-                        echo "Movie registered. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
-                        }
-                        
-                    }else{
-                        echo "Not all the fields have value</br>";
                     }
-                }elseif(empty($isan) && !empty($name) && empty($year) && empty($punctuation)){
+                    if(!$existingIsan){
+                        if(!empty($name) && !empty($year) && !empty($punctuation)){
+                            $movies[]= ["name"=>$name, "year"=>$year, "isan"=>$isan, "punctuation"=>$punctuation];
+                            echo "Movie registered. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation</br>";
+                        }else{
+                            echo "Not all fields have value</br>";
+                        }
+                    }
+
+                }elseif(empty($isan) && !empty($name)){
                     $founded=false;
                     foreach($movies as $movie){
                         if(stripos($movie["name"], $name)!= false){
