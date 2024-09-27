@@ -4,10 +4,20 @@
         if(!isset($_SESSION["movies"])){
             $_SESSION["movies"]=[];
         }
+        if(!isset($_SESSION["username"])){
+            $_SESSION["username"]="";
+        }
         
         $movies=$_SESSION["movies"];
 
-            if($_SERVER["REQUEST_METHOD"]=="POST"){
+        if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["user"])){
+            $_SESSION["username"]=$_POST["user"];
+        }
+
+        $username=$_SESSION["username"];
+
+
+            if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["name"], $_POST["isan"],  $_POST["year"], $_POST["punctuation"])){
                 $name=$_POST["name"];
                 $isan=$_POST["isan"];
                 $year=$_POST["year"];
@@ -76,6 +86,12 @@
 	</head>
 
 	<body>
+
+        <h1>
+            <?php 
+            echo $username; 
+            ?>'s Movies:
+        </h1>
 
         <div style="height:10%;">
         
