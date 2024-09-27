@@ -1,3 +1,78 @@
+<?php
+        session_start();
+
+        if(!isset($_SESSION["movies"])){
+            $_SESSION["movies"]=[];
+        }
+        if(!isset($_SESSION["username"])){
+            $_SESSION["username"]="";
+        }
+        
+        $movies=$_SESSION["movies"];
+
+        if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["user"])){
+            $_SESSION["username"]=$_POST["user"];
+        }
+
+        $username=$_SESSION["username"];
+
+
+            if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["name"], $_POST["isan"],  $_POST["year"], $_POST["punctuation"])){
+                $name=$_POST["name"];
+                $isan=$_POST["isan"];
+                $year=$_POST["year"];
+                $punctuation=$_POST["punctuation"];
+            
+                if(empty($name) && empty($isan)){
+                    echo "The name and the isan are empty</br>";
+                }elseif(!empty($isan) && strlen($isan)== 8){
+                    $existingIsan=false;
+
+                    foreach($movies as &$movie){
+                        if($movie["isan"]==$isan){
+                            $existingIsan=true;
+
+                            if(!empty($name) && !empty($year) && !empty($punctuation)){
+                                $movie["name"]=$name;
+                                $movie["year"]=$year;
+                                $movie["punctuation"]=$punctuation;
+                                echo "Movie modified. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation</br>";
+                            }else{
+                                $key=array_search($movie, $movies);
+                                unset($movies[$key]);
+                                echo "Movie with ISAN $isan deleted</br>";
+                            }
+                            break;
+                        }
+                    }
+                    if(!$existingIsan){
+                        if(!empty($name) && !empty($year) && !empty($punctuation)){
+                            $movies[]= ["name"=>$name, "year"=>$year, "isan"=>$isan, "punctuation"=>$punctuation];
+                            echo "Movie registered. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation</br>";
+                        }else{
+                            echo "Not all fields have value</br>";
+                        }
+                    }
+
+                }elseif(empty($isan) && !empty($name)){
+                    $founded=false;
+                    foreach($movies as $movie){
+                        if(stripos($movie["name"], $name)!= false){
+                            echo "<li>".$movie["name"]." ".$movie["year"]."</li>";
+                            $founded=true;
+                        }
+                    }
+                    if(!$founded){
+                        echo "<li>No movies found</li>";
+                    }
+                }else{
+                    echo "Error";
+                }
+            }
+
+            $_SESSION["movies"]=$movies;
+            
+		?>
 <!DOCTYPE HTML>
 
 <html>
@@ -12,67 +87,13 @@
 
 	<body>
 
-    <?php
-        
-        $movies=[];
+        <h1>
+            <?php 
+            echo $username; 
+            ?>'s Movies:
+        </h1>
 
-            if($_SERVER["REQUEST_METHOD"]=="POST"){
-                $name=$_POST["name"];
-                $isan=$_POST["isan"];
-                $year=$_POST["year"];
-                $punctuation=$_POST["punctuation"];
-            
-                if(empty($name) && empty($isan)){
-                    echo "The name and the isan are empty";
-                }elseif(!empty($isan) && strlen($isan)== 8){
-                    if(!empty($name) && !empty($year) && !empty($punctuation)){
-                        $existingMovie=false;
-                        $existingIsan=false;
-
-                        foreach($movies as &$movie){
-                            if($movie["isan"]==$isan){
-                                $movie["name"]=$name;
-                                $movie["year"]=$year;
-                                $movie["punctuation"]=$punctuation;
-                                $existingMovie=true;
-                                echo "Movie modified. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
-                                break;
-                            }
-                        }
-                        if(!$existingMovie){
-                            foreach($movies as $movie){
-                                if($movie["isan"]==$isan){
-                                    $existingIsan=true;
-                                    break;
-                                }
-                            }
-
-                            if($existingIsan){
-                                echo "You are trying to register an ISAN number that has already been added.";
-                            }else{
-                                $movies[]= ["name"=>$name, "year"=>$year, "isan"=>$isan, "punctuation"=>$punctuation];
-                            echo "Movie registered. Name: $name, ISAN: $isan, Year: $year and Punctuation: $punctuation";
-                            }
-                        }
-                    }else{
-                        echo "Not all the fields have value";
-                    }
-                }elseif(empty($isan) && !empty($name)){
-                    foreach($movies as $movie){
-                        if(stripos($movie["name"], $name)!= false){
-                            echo "<li>".$movie["name"]." ".$movie["year"]."</li>";
-                        }else{
-                            echo "<li>No movies found</li>";
-                        }
-                    }
-                }else{
-                    echo "Error";
-                }
-            }
-            
-		?>
-
-        <div style="height:50%;">
+        <div style="height:10%;">
         
 
         </div>
@@ -104,7 +125,15 @@
             </form>
         </div>
 
-		
+        <h2>Current Movies:</h2>
+        <ul>
+            <?php
+
+            foreach($movies as $movie){
+                echo "<li>".$movie["name"]." (".$movie["year"] . "), ISAN: ".$movie["isan"] . ", Punctuation: ".$movie["punctuation"] . "</li>";
+            }
+            ?>
+        </ul>
 
 	</body>
 
