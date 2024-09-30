@@ -5,7 +5,7 @@
     </head>
     <body>
 
-    <form action="movies.php" method="POST">
+    <form action="view.php" method="POST">
 
     <label for="user">Enter your name:</label><br>
     <input type="text" id="user" name="user" required><br><br>
