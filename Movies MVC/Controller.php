@@ -10,7 +10,7 @@
     $movies=$_SESSION["movies"];
 
     if(!isset($_SESSION["username"])){
-        $_SESSION["username"]="";
+        $_SESSION["username"]="Guest";
     } 
     $username=$_SESSION["username"];
 
@@ -25,9 +25,10 @@
             $year=$_POST["year"];
             $punctuation=$_POST["punctuation"];
             
-            $function=moviesInputs($name, $isan, $year, $punctuation, $function);  
+            $function=moviesInputs($name, $isan, $movies, $year, $punctuation);  
 
-            $_SESSION["movies"]="movies";
+            $_SESSION["movies"]=$movies;
+            $final=$function;
         }
     }
     
