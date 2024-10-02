@@ -14,7 +14,7 @@
 
         <h1>
             <?php 
-            echo $username; 
+            echo !empty($username) ? $username : "Guest"; 
             ?>'s Movies:
         </h1>
 
@@ -24,7 +24,7 @@
         </div>
 
         <div style="height:50%;">
-            <form method="POST" action="movies.php">
+            <form method="POST" action="Controller.php">
 
                 <label for="name">Name of the film:</label><br>
                 <input type="text" id="name" name="name"><br><br>
@@ -53,12 +53,16 @@
         <h2>Current Movies:</h2>
         <ul>
             <?php
-
-            foreach($movies as $movie){
-                echo "<li>".$movie["name"]." (".$movie["year"] . "), ISAN: ".$movie["isan"] . ", Punctuation: ".$movie["punctuation"] . "</li>";
+            if(!empty($movies)){
+                foreach($movies as $movie){
+                    echo "<li>".$movie["name"]." (".$movie["year"] . "), ISAN: ".$movie["isan"] . ", Punctuation: ".$movie["punctuation"] . "</li>";
+                }
+            }else{
+                echo "<li>No movies found</li>";
             }
             ?>
         </ul>
+        <h3><?php echo isset($function) ? $function: "";?></h3>
 
 	</body>
 
