@@ -14,7 +14,7 @@
 
         <h1>
             <?php 
-            echo !empty($username) ? $username : "Guest"; 
+            echo !empty($username) ? $username : ""; 
             ?>'s Movies:
         </h1>
 
