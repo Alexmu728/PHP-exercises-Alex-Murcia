@@ -14,7 +14,7 @@
 
         <h1>
             <?php 
-            echo !empty($username) ? $username : ""; 
+            echo !empty($username) ? htmlspecialchars($username) : ""; 
             ?>'s Movies:
         </h1>
 
@@ -55,7 +55,7 @@
             <?php
             if(!empty($movies)){
                 foreach($movies as $movie){
-                    echo "<li>".$movie["name"]." (".$movie["year"] . "), ISAN: ".$movie["isan"] . ", Punctuation: ".$movie["punctuation"] . "</li>";
+                    echo "<li>" . htmlspecialchars($movie["name"]) . " (" . htmlspecialchars($movie["year"]) . "), ISAN: " . htmlspecialchars($movie["isan"]) . ", Punctuation: " . htmlspecialchars($movie["punctuation"]) . "</li>";
                 }
             }else{
                 echo "<li>No movies found</li>";

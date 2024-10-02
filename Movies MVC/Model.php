@@ -1,6 +1,6 @@
 <?php
 
-function moviesInputs($movies, $name, $isan, $year, $punctuation){
+function moviesInputs(&$movies, $name, $isan, $year, $punctuation){
     if(empty($name) && empty($isan)){
         return "The name and the isan are empty</br>";
     }
