@@ -38,8 +38,8 @@ function moviesInputs(&$movies, $name, $isan, $year, $punctuation){
         $founded=false;
         $output="";
         foreach($movies as $movie){
-            if(stripos($movie["name"], $name)!= false){
-                $output.= "<li>".$movie["name"]." ".$movie["year"]."</li>";
+            if(stripos($movie["name"], $name)!== false){
+                $output .= "<li>" . htmlspecialchars($movie["name"]) . " " . htmlspecialchars($movie["year"]) . "</li>";
                 $founded=true;
             }
         }
