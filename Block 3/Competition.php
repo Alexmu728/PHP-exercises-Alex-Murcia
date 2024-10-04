@@ -50,10 +50,42 @@
                     }
                     return "The quickest runner is $quickest with $quick time";
                 }
+
+                public function runnersName(){
+                    $runnersNames=array();
+                    foreach($this->runners as $runner){
+                        $amount=0;
+                        foreach($runner->getRaceTimes() as $time){
+                            if($time>15){
+                                $amount++;
+                            }
+                        }
+                        if($amount>2){
+                            $runnersNames[]=$runner->getName();
+                        }
+                    }
+                    return $runnersNames;
+                }
+
+                public function endE(){
+                    $runnerE=array();
+                    foreach($runners as $runner){
+                        foreach($runner->getName() as $name){
+                            if(str_ends_with($name, "e")){
+                                $runnerE[]=$name;
+                            }
+                        }
+                    }
+                    return $runnerE;
+                }
+
             }
 
-		?>
 
-	</body>
+        ?>
+
+
+    </body>
+
 
 </html>
