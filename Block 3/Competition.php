@@ -1,45 +1,33 @@
 <!DOCTYPE HTML>
 
-
 <html>
 
+	<head>
 
-    <head>
+		<meta charset="utf-8">
 
+		<title></title>
 
-        <meta charset="utf-8">
+	</head>
 
+	<body>
 
-        <title></title>
+		<?php
 
-
-    </head>
-
-
-    <body>
-
-
-        <?php
-
-
-            class Competition{
+			class Competition{
                 private $runners=array();
-
 
                 public function addRunner(Runner $runner){
                     $this->runners[$runner->getCode()]=$runner;
                 }
 
-
                 public function addRaceToRunner($code, $time){
                     $this->runners[$code]->addRace($time);
                 }
 
-
                 public function average(){
                     $average=0;
                     $i=0;
-
 
                     foreach($this->runners as $runner){
                         $time=$runner->getRaceTimes();
@@ -48,7 +36,6 @@
                     }
                     return ($average/$i);
                 }
-
 
                 public function quickest(){
                     $quick=9999999;

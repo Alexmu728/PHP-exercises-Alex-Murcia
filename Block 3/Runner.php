@@ -1,32 +1,22 @@
 <!DOCTYPE HTML>
-
-
 <html>
 
+	<head>
 
-    <head>
+		<meta charset="utf-8">
 
+		<title></title>
 
-        <meta charset="utf-8">
+	</head>
 
+	<body>
 
-        <title></title>
+		<?php
 
-
-    </head>
-
-
-    <body>
-
-
-        <?php
-
-
-            class Runner{
+			class Runner{
                 private $name;
                 private $code;
                 private $raceTimes=array();
-
 
                 public function __construct($name, $code){
                     $this->name=$name;
@@ -39,7 +29,7 @@
                 }
 
 
-               
+                
                 public function getCode(){
                     return $this->code;
                 }
@@ -47,7 +37,6 @@
                 public function getRaceTimes(){
                     return $this->raceTimes;
                 }
-
 
                 public function addRace($time){
                     if(count($this->raceTimes)>=5){
@@ -59,14 +48,11 @@
                     $this->raceTimes[]=$time;
                 }
 
-
             }
 
+		?>
 
-        ?>
-
-
-    </body>
-
+	</body>
 
 </html>
+
