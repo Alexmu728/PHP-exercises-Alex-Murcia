@@ -4,6 +4,13 @@
 
 @section('content')
     <h2>Upcoming Events</h2>
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <ul>
         @foreach ($events as $event)
             <li>
