@@ -30,9 +30,9 @@ Route::get('/user', [UserController::class, 'index'])->name('user.index'); // <-
 Route::get('/form', [UserController::class, 'showForm'])->name('form');
 Route::post('/form', [UserController::class, 'submitForm'])->name('form.submit');
 
-Route::get('/age', [UserController::class, 'showAgeForm'])->name('age');
+Route::get('/age', [UserController::class, 'showAgeForm'])->name('home.age');
 Route::post('/age', [UserController::class, 'submitAge'])->name('age.submit');
-Route::get('/result', [UserController::class, 'showResult'])->name('result');
+Route::get('/result', [UserController::class, 'showResult'])->name('home.result');
 
 // Website routes
 Route::get('/dashboard', [WebsiteController::class, 'showDashboard'])->name('dashboard');

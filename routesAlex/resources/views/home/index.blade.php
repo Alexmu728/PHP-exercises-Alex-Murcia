@@ -7,7 +7,7 @@
 <body>
     <h1>Welcome!</h1>
     <a href="{{ route('form') }}">FORM</a>
-    <a href="{{ route('age') }}">EDAD</a>
+    <a href="{{ route('home.age') }}">EDAD</a>
 </body>
 </html>
 

@@ -39,7 +39,7 @@ class UserController extends Controller
     public function submitAge(Request $request) {
         // Process the age input
         $request->validate([
-            'home.age' => 'required|integer|min:1|max:33',
+            'age' => 'required|integer|min:1|max:33',
         ]);
 
         // Store the age in session
