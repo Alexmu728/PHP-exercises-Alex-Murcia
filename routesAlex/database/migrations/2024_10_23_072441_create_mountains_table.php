@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mounstains', function (Blueprint $table) {
+        Schema::create('mountains', function (Blueprint $table) {
             $table->id();
+            $table->string("name");
+            $table->integer("height");
+            $table->boolean("belongsToRange");
+            $table->date("firstClimbDate");
+            $table->enum("continent", ["Afrika", "Asia", "Europe", "America", "Oceania"]);
             $table->timestamps();
         });
     }
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mounstains');
+        Schema::dropIfExists('mountains');
     }
 };
