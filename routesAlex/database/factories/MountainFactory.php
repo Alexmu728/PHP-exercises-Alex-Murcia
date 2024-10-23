@@ -27,3 +27,5 @@ class MountainFactory extends Factory
         ];
     }
 }
+Mountain::factory()->count(10)->create();
+
