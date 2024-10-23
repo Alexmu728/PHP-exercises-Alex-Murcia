@@ -5,6 +5,7 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\MountainController;
 
 // Home routes
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
@@ -38,3 +39,5 @@ Route::get('/result', [UserController::class, 'showResult'])->name('home.result'
 Route::get('/dashboard', [WebsiteController::class, 'showDashboard'])->name('dashboard');
 Route::get('/events', [WebsiteController::class, 'showEvents'])->name('events');
 Route::post('/events/{event_id}/book', [WebsiteController::class, 'bookTicket'])->name('book_ticket');
+
+Route::get('/mountains', MountainController::class);
