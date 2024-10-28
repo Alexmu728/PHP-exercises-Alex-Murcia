@@ -13,7 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(MountainsTableSeeder::class);
+        $this->call([
+            MountainsTableSeeder::class,
+            MountainModelSeeder::class,
+        ]);
         // User::factory(10)->create();
 
         User::factory()->create([
