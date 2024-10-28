@@ -40,4 +40,6 @@ Route::get('/dashboard', [WebsiteController::class, 'showDashboard'])->name('das
 Route::get('/events', [WebsiteController::class, 'showEvents'])->name('events');
 Route::post('/events/{event_id}/book', [WebsiteController::class, 'bookTicket'])->name('book_ticket');
 
-Route::get('/mountains', MountainController::class);
+Route::get('/mountains', [MountainController::class, 'index'])->name('mountains.index');
+Route::get('/mountains/{id}', [MountainController::class, 'show'])->name('mountains.show');
+Route::get('/mountains/max', [MountainController::class, 'max'])->name('mountains.max');
