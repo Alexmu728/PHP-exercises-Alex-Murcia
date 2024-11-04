@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table ->date("datetime");
-            $table-> string("description");
+            $table->foreignId("citizen_id")->constrained("citizens")->onDelete("cascade");
+            $table->dateTime("datetime");
+            $table->string("description");
             $table->string("title");
             $table->timestamps();
         });
