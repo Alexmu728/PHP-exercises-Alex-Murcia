@@ -40,5 +40,23 @@
 
         <button type="submit" class="btn btn-primary">Create task</button>
     </form>
+
+    <form action="{{ route('tasks.search') }}" method="GET">
+        <input type="text" name="keyword" placeholder="Search tasks">
+        <button type="submit">Search</button>
+    </form>
+
+    <form action="{{ route('tasks.filter') }}" method="GET">
+        <input type="text" name="title" placeholder="Title">
+        <input type="text" name="description" placeholder="Description">
+        <input type="date" name="datetime" placeholder="Date">
+        <select name="operator">
+            <option value="and">AND</option>
+            <option value="or">OR</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+
 </div>
 @endsection
