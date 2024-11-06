@@ -3,62 +3,64 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Address; 
+use App\Models\Citizen;
 
 class AddressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $addresses = Address::all();
+        return view('addresses.index', compact('addresses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $citizens = Citizen::all(); // Para que el usuario pueda elegir un ciudadano
+        return view('addresses.create', compact('citizens'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'citizen_id' => 'required|exists:citizens,id|unique:addresses',
+            'street' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'postalCode' => 'required|string|max:10'
+        ]);
+
+        Address::create($validatedData);
+
+        return redirect()->route('addresses.index')->with('success', 'Dirección creada correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $address = Address::findOrFail($id);
+        $citizens = Citizen::all();
+        return view('addresses.edit', compact('address', 'citizens'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'citizen_id' => 'required|exists:citizens,id|unique:addresses,citizen_id,' . $id,
+            'street' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'postalCode' => 'required|string|max:10'
+        ]);
+
+        $address = Address::findOrFail($id);
+        $address->update($validatedData);
+
+        return redirect()->route('addresses.index')->with('success', 'Dirección actualizada correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $address = Address::findOrFail($id);
+        $address->delete();
+
+        return redirect()->route('addresses.index')->with('success', 'Dirección eliminada correctamente.');
     }
 }
