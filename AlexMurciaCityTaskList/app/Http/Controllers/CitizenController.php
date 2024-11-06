@@ -12,6 +12,8 @@ class CitizenController extends Controller
     public function index()
     {
         //
+        $citizens=Citizen::all();
+        return view("citizens.index", compact("citizens"));
     }
 
     /**
@@ -20,6 +22,7 @@ class CitizenController extends Controller
     public function create()
     {
         //
+        return view("citizens.create");
     }
 
     /**
@@ -28,6 +31,16 @@ class CitizenController extends Controller
     public function store(Request $request)
     {
         //
+        $validatedData=$request->validate([
+            "name"=> "required|string|max:225",
+            "age"=> "required|integer",
+            "email"=> "required|email|unique:citizens",
+            "date_pf_birth"=> "required|date",
+            "gender"=> "required|in:male,female,other"
+        ]);
+
+        Citizen::create($validatedData);
+        return redirect()->route("citizens.index")->with("success", "Citizen created successfully");
     }
 
     /**
@@ -36,6 +49,8 @@ class CitizenController extends Controller
     public function show(string $id)
     {
         //
+        $citizen=Citizen::findOrFail($id);
+        return view("citizens.show", compact("citizen"));
     }
 
     /**
@@ -44,6 +59,8 @@ class CitizenController extends Controller
     public function edit(string $id)
     {
         //
+        $citizen=Citizen::findOrFail($id);
+        return view("citizens.edit", compact("citizen"));
     }
 
     /**
@@ -51,7 +68,18 @@ class CitizenController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'age' => 'required|integer',
+            'email' => 'required|email|unique:citizens,email,' . $id,
+            'date_of_birth' => 'required|date',
+            'gender' => 'required|in:male,female,other'
+        ]);
+
+        $citizen = Citizen::findOrFail($id);
+        $citizen->update($validatedData);
+
+        return redirect()->route('citizens.index')->with('success', 'Ciudadano actualizado correctamente.');
     }
 
     /**
@@ -60,5 +88,8 @@ class CitizenController extends Controller
     public function destroy(string $id)
     {
         //
+        $citizen=Citizen::findOrFail($id);
+        $citizen->delete();
+        return redirect()->route("citizens.index")->with("success", "Citizen deleted successfully");
     }
 }
