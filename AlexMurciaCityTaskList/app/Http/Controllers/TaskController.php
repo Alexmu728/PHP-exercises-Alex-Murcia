@@ -66,4 +66,41 @@ class TaskController extends Controller
 
         return redirect()->route('tasks.index')->with('success', 'Task deleted successfully');
     }
+
+    public function search(Request $request){
+        $request->validate([
+            "keyword" => "required|string|max:255"
+        ]);
+        $keyword=$request->input("keyword");
+
+        $tasks= Task::where("title", "LIKE", "%{$keyword}%")->orWhere("description", "LIKE", "%{$keyword}%")->get();
+        
+        return view("tasks.index", compact("tasks"))->with("success", "Search completed");
+    }
+
+    public function filter(Request $request)
+    {
+        $filters = $request->only(['title', 'description', 'citizen_id', 'datetime', 'operator']);
+        $query = Task::query();
+
+        if($filters["operator"]==="or") {
+            $query->where(function ($query) use ($filters) {
+                foreach ($filters as $key => $value) {
+                    if ($value && $key !== 'operator') {
+                        $query->orWhere($key, 'LIKE', "%{$value}%");
+                    }
+                }
+            });
+        }else{
+            foreach($filters as $key => $value) {
+                if ($value && $key !== 'operator') {
+                    $query->where($key, 'LIKE', "%{$value}%");
+                }
+            }
+        }
+
+        $tasks = $query->get();
+
+        return view('tasks.index', compact('tasks'));
+    }
 }
