@@ -103,4 +103,9 @@ class TaskController extends Controller
 
         return view('tasks.index', compact('tasks'));
     }
+
+    public function recent(){
+        $tasks=Task::orderBy("created_at", "desc")->take(12)->get();
+        return view("tasks.recent", compact("tasks"));
+    }
 }
