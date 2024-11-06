@@ -80,7 +80,7 @@ class CitizenController extends Controller
         $citizen = Citizen::findOrFail($id);
         $citizen->update($validatedData);
 
-        return redirect()->route('citizens.index')->with('success', 'Ciudadano actualizado correctamente.');
+        return redirect()->route('citizens.index')->with('success', 'Citizen updated successfully');
     }
 
     /**

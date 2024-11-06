@@ -33,7 +33,7 @@ class TaskController extends Controller
 
         Task::create($validatedData);
 
-        return redirect()->route('tasks.index')->with('success', 'Tarea creada correctamente.');
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully');
     }
 
     public function edit(string $id)
@@ -56,7 +56,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $task->update($validatedData);
 
-        return redirect()->route('tasks.index')->with('success', 'Tarea actualizada correctamente.');
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully');
     }
 
     public function destroy(string $id)
@@ -64,6 +64,6 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $task->delete();
 
-        return redirect()->route('tasks.index')->with('success', 'Tarea eliminada correctamente.');
+        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully');
     }
 }

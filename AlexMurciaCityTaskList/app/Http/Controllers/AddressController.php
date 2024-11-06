@@ -31,7 +31,7 @@ class AddressController extends Controller
 
         Address::create($validatedData);
 
-        return redirect()->route('addresses.index')->with('success', 'Dirección creada correctamente.');
+        return redirect()->route('addresses.index')->with('success', 'Address created successfully');
     }
 
     public function edit(string $id)
@@ -53,7 +53,7 @@ class AddressController extends Controller
         $address = Address::findOrFail($id);
         $address->update($validatedData);
 
-        return redirect()->route('addresses.index')->with('success', 'Dirección actualizada correctamente.');
+        return redirect()->route('addresses.index')->with('success', 'Address updated successfully');
     }
 
     public function destroy(string $id)
@@ -61,6 +61,6 @@ class AddressController extends Controller
         $address = Address::findOrFail($id);
         $address->delete();
 
-        return redirect()->route('addresses.index')->with('success', 'Dirección eliminada correctamente.');
+        return redirect()->route('addresses.index')->with('success', 'Address deleted successfully');
     }
 }
