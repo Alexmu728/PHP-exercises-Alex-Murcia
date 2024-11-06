@@ -16,7 +16,7 @@ class AddressController extends Controller
 
     public function create()
     {
-        $citizens = Citizen::all(); // Para que el usuario pueda elegir un ciudadano
+        $citizens = Citizen::all(); 
         return view('addresses.create', compact('citizens'));
     }
 
