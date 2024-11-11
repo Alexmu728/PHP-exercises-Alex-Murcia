@@ -6,9 +6,10 @@
 
         <form action="{{ route('addresses.store') }}" method="POST">
             @csrf
-            <div class="form-group">
-                <label for="citizen_id">Citizen</label>
-                <select id="citizen_id" name="citizen_id" class="form-control" required>
+            
+            <div>
+                <label for="citizen_id">Citizen:</label>
+                <select name="citizen_id" id="citizen_id">
                     @foreach($citizens as $citizen)
                         <option value="{{ $citizen->id }}">{{ $citizen->name }}</option>
                     @endforeach

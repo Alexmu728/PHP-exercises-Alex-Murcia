@@ -10,10 +10,11 @@ use App\Models\Subject;
 class TaskController extends Controller
 {
     public function index()
-    {
-        $tasks = Task::all();
-        return view('tasks.index', compact('tasks'));
-    }
+{
+    $tasks = Task::with(['citizen', 'subjects'])->get();
+
+    return view('tasks.index', compact('tasks'));
+}
 
     public function create()
     {
@@ -28,36 +29,21 @@ class TaskController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'due_date' => 'required|date', // Cambiado 'datetime' a 'due_date'
-            'citizen_id' => 'required|exists:citizens,id'
+            'due_date' => 'required|date',
+            'citizen_id' => 'required|exists:citizens,id',
+            'subjects' => 'required|array', 
         ]);
 
-        Task::create($validatedData);
+        $task = Task::create([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'due_date' => $validatedData['due_date'],
+            'citizen_id' => $validatedData['citizen_id'],
+        ]);
+
+        $task->subjects()->sync($validatedData['subjects']);
 
         return redirect()->route('tasks.index')->with('success', 'Task created successfully');
-    }
-
-    public function edit(string $id)
-    {
-        $task = Task::findOrFail($id);
-        $citizens = Citizen::all();
-        $subjects = Subject::all();
-        return view('tasks.edit', compact('task', 'citizens', 'subjects'));
-    }
-
-    public function update(Request $request, string $id)
-    {
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'due_date' => 'required|date', // Cambiado 'datetime' a 'due_date'
-            'citizen_id' => 'required|exists:citizens,id'
-        ]);
-
-        $task = Task::findOrFail($id);
-        $task->update($validatedData);
-
-        return redirect()->route('tasks.index')->with('success', 'Task updated successfully');
     }
 
     public function destroy(string $id)
@@ -68,45 +54,4 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task deleted successfully');
     }
 
-    public function search(Request $request){
-        $request->validate([
-            "keyword" => "required|string|max:255"
-        ]);
-        $keyword=$request->input("keyword");
-
-        $tasks= Task::where("title", "LIKE", "%{$keyword}%")->orWhere("description", "LIKE", "%{$keyword}%")->get();
-        
-        return view("tasks.index", compact("tasks"))->with("success", "Search completed");
-    }
-
-    public function filter(Request $request)
-    {
-        $filters = $request->only(['title', 'description', 'citizen_id', 'datetime', 'operator']);
-        $query = Task::query();
-
-        if($filters["operator"]==="or") {
-            $query->where(function ($query) use ($filters) {
-                foreach ($filters as $key => $value) {
-                    if ($value && $key !== 'operator') {
-                        $query->orWhere($key, 'LIKE', "%{$value}%");
-                    }
-                }
-            });
-        }else{
-            foreach($filters as $key => $value) {
-                if ($value && $key !== 'operator') {
-                    $query->where($key, 'LIKE', "%{$value}%");
-                }
-            }
-        }
-
-        $tasks = $query->get();
-
-        return view('tasks.index', compact('tasks'));
-    }
-
-    public function recent(){
-        $tasks=Task::orderBy("created_at", "desc")->take(12)->get();
-        return view("tasks.recent", compact("tasks"));
-    }
 }

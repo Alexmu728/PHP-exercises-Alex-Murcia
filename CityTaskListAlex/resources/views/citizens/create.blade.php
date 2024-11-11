@@ -35,23 +35,6 @@
                 </select>
             </div>
 
-            <h3>Address</h3>
-
-            <div class="form-group">
-                <label for="street">Street</label>
-                <input type="text" id="street" name="street" class="form-control" required>
-            </div>
-
-            <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" id="city" name="city" class="form-control" required>
-            </div>
-
-            <div class="form-group">
-                <label for="postal_code">Postal Code</label>
-                <input type="text" id="postal_code" name="postal_code" class="form-control" required>
-            </div>
-
             <button type="submit" class="btn btn-primary">Create Citizen</button>
         </form>
     </div>

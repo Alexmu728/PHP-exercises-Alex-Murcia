@@ -22,43 +22,28 @@ class CitizenController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'age' => 'required|integer',
+            'age' => 'required|integer|min:0',
             'email' => 'required|email|unique:citizens,email',
-            'date_of_birth' => 'required|date', // Cambiado de 'date_pf_birth' a 'date_of_birth'
+            'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female,other',
-            'street' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:255',
         ]);
 
-        $citizen = Citizen::create([
-            'name' => $validatedData['name'],
-            'age' => $validatedData['age'],
-            'email' => $validatedData['email'],
-            'date_of_birth' => $validatedData['date_of_birth'],
-            'gender' => $validatedData['gender'],
-        ]);
+        Citizen::create($validatedData);
 
-        $citizen->address()->create([
-            'street' => $validatedData['street'],
-            'city' => $validatedData['city'],
-            'postal_code' => $validatedData['postal_code'],
-        ]);
-
-        return redirect()->route('citizens.index')->with('success', 'Citizen created successfully');
+        return redirect()->route('citizens.index')->with('success', 'Citizen created successfully!');
     }
 
-    public function update(Request $request, string $id)
+
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'age' => 'required|integer',
-            'email' => 'required|email|unique:citizens,email,' . $id,
-            'date_of_birth' => 'required|date',
-            'gender' => 'required|in:male,female,other'
+            'email' => 'required|email',
         ]);
 
         $citizen = Citizen::findOrFail($id);
+
         $citizen->update($validatedData);
 
         return redirect()->route('citizens.index')->with('success', 'Citizen updated successfully');
@@ -69,6 +54,11 @@ class CitizenController extends Controller
         $citizen=Citizen::findOrFail($id);
         $citizen->delete();
         return redirect()->route("citizens.index")->with("success", "Citizen deleted successfully");
+    }
+    public function edit($id)
+    {
+        $citizen = Citizen::findOrFail($id);
+        return view('citizens.edit', compact('citizen'));
     }
 }
 

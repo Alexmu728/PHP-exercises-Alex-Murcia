@@ -25,7 +25,7 @@ class AddressController extends Controller
             'citizen_id' => 'required|exists:citizens,id',
             'street' => 'required|string',
             'city' => 'required|string',
-            'postal_code' => 'required|string', // Cambiado 'postalCode' a 'postal_code'
+            'postal_code' => 'required|string',
         ]);
 
         Address::create([
@@ -37,22 +37,6 @@ class AddressController extends Controller
 
         return redirect()->route('addresses.index')->with('success', 'Address assigned successfully.');
     }
-
-    public function update(Request $request, string $id)
-    {
-        $validatedData = $request->validate([
-            'citizen_id' => 'required|exists:citizens,id|unique:addresses,citizen_id,' . $id,
-            'street' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:10' // Cambiado 'postalCode' a 'postal_code'
-        ]);
-
-        $address = Address::findOrFail($id);
-        $address->update($validatedData);
-
-        return redirect()->route('addresses.index')->with('success', 'Address updated successfully');
-    }
-
     public function destroy(string $id)
     {
         $address = Address::findOrFail($id); 

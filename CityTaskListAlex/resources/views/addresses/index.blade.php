@@ -1,39 +1,46 @@
 @extends('layouts.app')
 
-@section('title', 'Assign Address')
-
 @section('content')
-<div class="container">
-    <h1>Assign Address</h1>
+<div class="container mt-5">
+    <h1>List of Addresses</h1>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    @if($addresses->isEmpty())
+        <p>No addresses found.</p>
+    @else
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Citizen</th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th>Postal Code</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($addresses as $address)
+                    <tr>
+                        <td>{{ $address->citizen->name }}</td> <!-- Mostrar el nombre del ciudadano -->
+                        <td>{{ $address->street }}</td>
+                        <td>{{ $address->city }}</td>
+                        <td>{{ $address->postal_code }}</td>
+                        <td>
+                            <!-- Formulario para eliminar la dirección -->
+                            <form action="{{ route('addresses.destroy', $address->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     @endif
 
-    <form action="{{ route('addresses.store') }}" method="POST">
-        @csrf
-        <div class="mb-3">
-            <label for="citizen_id" class="form-label">Select a citizen</label>
-            <select name="citizen_id" id="citizen_id" class="form-select" required>
-                <option value="">Select a citizen</option>
-                @foreach($citizens as $citizen)
-                    <option value="{{ $citizen->id }}">{{ $citizen->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="street" class="form-label">Street</label>
-            <input type="text" class="form-control" id="street" name="street" required>
-        </div>
-        <div class="mb-3">
-            <label for="city" class="form-label">City</label>
-            <input type="text" class="form-control" id="city" name="city" required>
-        </div>
-        <div class="mb-3">
-            <label for="postalCode" class="form-label">Postal code</label>
-            <input type="text" class="form-control" id="postalCode" name="postalCode" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Assign address</button>
-    </form>
+    <!-- Botón para agregar una nueva dirección -->
+    <div class="mb-3">
+        <a href="{{ route('addresses.create') }}" class="btn btn-primary">Add New Address</a>
+    </div>
 </div>
 @endsection

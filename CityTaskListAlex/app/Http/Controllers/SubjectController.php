@@ -9,46 +9,29 @@ class SubjectController extends Controller
 {
     public function index()
     {
-        $subjects = Subject::all(); // Corrección de typo en variable ($subjects)
-        return view("subjects.index", compact("subjects"));
+        $subjects = Subject::all(); 
+        return view('subjects.index', compact('subjects')); 
+    }
+
+    public function create()
+    {
+        return view('subjects.create');
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            "name" => "required|string|max:255",
-            "responsible" => "required|string|max:255"
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'responsible' => 'required|string|max:255',
         ]);
 
-        Subject::create($validatedData);
-        return redirect()->route("subjects.index")->with("success", "Subject created successfully");
-    }
-
-    public function edit(string $id)
-    {
-        $subject = Subject::findOrFail($id);
-        return view("subjects.edit", compact("subject"));
-    }
-
-    public function update(Request $request, string $id)
-    {
-        $validatedData = $request->validate([
-            "name" => "required|string|max:255",
-            "responsible" => "required|string|max:255"
+        Subject::create([
+            'name' => $request->name,
+            'responsible' => $request->responsible,
         ]);
 
-        $subject = Subject::findOrFail($id);
-        $subject->update($validatedData);
-
-        return redirect()->route("subjects.index")->with("success", "Subject updated successfully");
-    }
-
-    public function destroy(string $id)
-    {
-        $subject = Subject::findOrFail($id);
-        $subject->delete();
-
-        return redirect()->route("subjects.index")->with("success", "Subject deleted successfully");
+        return redirect()->route('subjects.index')->with('success', 'Subject created successfully.');
     }
 }
+
 

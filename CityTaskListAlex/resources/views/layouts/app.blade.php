@@ -16,10 +16,13 @@
                         <a class="nav-link" href="{{ route('citizens.index') }}">Citizens</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('addresses.create') }}">Addresses</a>
+                        <a class="nav-link" href="{{ route('addresses.index') }}">Addresses</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tasks.create') }}">Tasks</a>
+                        <a class="nav-link" href="{{ route('subjects.index') }}">Subjects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('tasks.index') }}">Tasks</a>
                     </li>
                 </ul>
             </div>
