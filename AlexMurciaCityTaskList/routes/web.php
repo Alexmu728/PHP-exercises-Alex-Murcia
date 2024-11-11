@@ -18,3 +18,5 @@ Route::resource("subjects", SubjectController::class);
 Route::get("/task/recent", [TaskController::class, "recent"]);
 Route::get("/tasks/filter", [TaskController::class, "filter"])->name("tasks.filter");
 Route::get("/tasjs/search", [TaskController::class, "search"])->name("tasks.search");
+
+Route::post("/addresses", [AddressController::class, "store"])->name("addresses.store");
