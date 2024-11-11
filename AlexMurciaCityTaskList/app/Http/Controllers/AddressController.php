@@ -17,7 +17,7 @@ class AddressController extends Controller
     public function create()
     {
         $citizens = Citizen::all(); 
-        return view('addresses.create', compact('citizens'));
+        return view('addresses.undex', compact('citizens'));
     }
 
     public function store(Request $request)
