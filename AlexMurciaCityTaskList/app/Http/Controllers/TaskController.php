@@ -19,7 +19,8 @@ class TaskController extends Controller
     {
         $citizens = Citizen::all();
         $subjects = Subject::all();
-        return view('tasks.create', compact('citizens', 'subjects'));
+        return view('tasks.create')->with('citizens', $citizens)->with('subjects', $subjects);
+
     }
 
     public function store(Request $request)

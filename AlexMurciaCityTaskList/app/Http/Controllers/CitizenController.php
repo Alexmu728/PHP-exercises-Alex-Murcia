@@ -2,51 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Citizen;
+use Illuminate\Http\Request;
 
 class CitizenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-        $citizens=Citizen::all();
-        return view("citizens.index", compact("citizens"));
+        $citizens = Citizen::all();
+        return view('citizens.index', compact('citizens'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
-        //
-        return view("citizens.create");
+        return view('citizens.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-        $validatedData=$request->validate([
-            "name"=> "required|string|max:225",
-            "age"=> "required|integer",
-            "email"=> "required|email|unique:citizens",
-            "date_pf_birth"=> "required|date",
-            "gender"=> "required|in:male,female,other"
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'age' => 'required|integer',
+            'email' => 'required|email|unique:citizens,email',
+            'date_pf_birth' => 'required|date',
+            'gender' => 'required|in:male,female,other',
+            'street' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:255',
         ]);
 
-        Citizen::create($validatedData);
-        return redirect()->route("citizens.index")->with("success", "Citizen created successfully");
+        $citizen = Citizen::create([
+            'name' => $validatedData['name'],
+            'age' => $validatedData['age'],
+            'email' => $validatedData['email'],
+            'date_pf_birth' => $validatedData['date_pf_birth'],
+            'gender' => $validatedData['gender'],
+        ]);
+
+        $citizen->address()->create([
+            'street' => $validatedData['street'],
+            'city' => $validatedData['city'],
+            'postal_code' => $validatedData['postal_code'],
+        ]);
+
+        return redirect()->route('citizens.index')->with('success', 'Citizen created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
@@ -54,9 +55,6 @@ class CitizenController extends Controller
         return view("citizens.show", compact("citizen"));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
@@ -64,9 +62,6 @@ class CitizenController extends Controller
         return view("citizens.edit", compact("citizen"));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $validatedData = $request->validate([
@@ -83,9 +78,6 @@ class CitizenController extends Controller
         return redirect()->route('citizens.index')->with('success', 'Citizen updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
@@ -94,3 +86,4 @@ class CitizenController extends Controller
         return redirect()->route("citizens.index")->with("success", "Citizen deleted successfully");
     }
 }
+

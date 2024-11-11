@@ -9,13 +9,15 @@ class Citizen extends Model
 {
     use HasFactory;
 
-    protected $table="citizens";
-    protected $fillable=["name", "other_column"];
-    //
-    public function address(){
-        return $this->hasOne(Address::class);
+    protected $fillable = ["name", "age", "email", "date_pf_birth", "gender"];
+
+    public function address()
+    {
+        return $this->hasOne(Address::class); 
     }
-    public function tasks(){
-        return $this->hasMany(Task::class);
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class); 
     }
 }

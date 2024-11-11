@@ -13,9 +13,6 @@
                     <label for="citizen_id" class="form-label">Select a citizen</label>
                     <select name="citizen_id" id="citizen_id" class="form-select" required>
                         <option value="">Select a citizen</option>
-                        @foreach($citizens as $citizen)
-                        <option value="{{ $citizen->id }}">{{ $citizen->name }}</option>
-                        @endforeach
                     </select>
                 </div>
                 <div class="mb-3">

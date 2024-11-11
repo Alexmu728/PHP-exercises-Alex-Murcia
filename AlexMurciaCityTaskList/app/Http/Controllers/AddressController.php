@@ -15,23 +15,32 @@ class AddressController extends Controller
     }
     public function create()
     {
-        $citizens = Citizen::all(); 
-        return view('addresses.create', compact('citizens')); 
+        $citizens = Citizen::all();  
+        return view('addresses.create', compact("citizens"));
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'citizen_id' => 'required|exists:citizens,id|unique:addresses',
-            'street' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'postalCode' => 'required|string|max:10'
+        // Validación de los datos
+        $request->validate([
+            'citizen_id' => 'required|exists:citizens,id',
+            'street' => 'required|string',
+            'city' => 'required|string',
+            'postalCode' => 'required|string',
         ]);
 
-        Address::create($validatedData); 
+        // Crear la dirección
+        Address::create([
+            'citizen_id' => $request->citizen_id,
+            'street' => $request->street,
+            'city' => $request->city,
+            'postal_code' => $request->postalCode,
+        ]);
 
-        return redirect()->route('addresses.index')->with('success', 'Address created successfully');
+        // Redirigir después de guardar la dirección
+        return redirect()->route('citizens.index')->with('success', 'Address assigned successfully.');
     }
+
     public function edit(string $id)
     {
         $address = Address::findOrFail($id); 
