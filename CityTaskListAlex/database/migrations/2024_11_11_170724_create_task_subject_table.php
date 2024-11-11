@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('subject_task', function (Blueprint $table) {
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade'); 
             $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade'); 
-            $table->primary(['subject_id', 'task_id']); // Llave primaria compuesta
-            $table->timestamps(); // Opcional: para registrar cuándo se asignan los temas a las tareas
+            $table->primary(['subject_id', 'task_id']); 
+            $table->timestamps(); 
         });
     }
 

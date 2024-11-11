@@ -20,12 +20,11 @@
             <tbody>
                 @foreach($addresses as $address)
                     <tr>
-                        <td>{{ $address->citizen->name }}</td> <!-- Mostrar el nombre del ciudadano -->
+                        <td>{{ $address->citizen->name }}</td>
                         <td>{{ $address->street }}</td>
                         <td>{{ $address->city }}</td>
                         <td>{{ $address->postal_code }}</td>
                         <td>
-                            <!-- Formulario para eliminar la dirección -->
                             <form action="{{ route('addresses.destroy', $address->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -37,8 +36,6 @@
             </tbody>
         </table>
     @endif
-
-    <!-- Botón para agregar una nueva dirección -->
     <div class="mb-3">
         <a href="{{ route('addresses.create') }}" class="btn btn-primary">Add New Address</a>
     </div>

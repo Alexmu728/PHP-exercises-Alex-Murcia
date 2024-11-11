@@ -6,7 +6,6 @@
 <div class="container mt-5">
     <h1>Edit Citizen</h1>
 
-    <!-- Formulario de edición del ciudadano -->
     <form action="{{ route('citizens.update', $citizen->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -25,9 +24,6 @@
             <label for="email">Email</label>
             <input type="email" id="email" name="email" class="form-control" value="{{ old('email', $citizen->email) }}" required>
         </div>
-
-        <!-- Otros campos que quieras permitir editar -->
-        
         <button type="submit" class="btn btn-primary">Update Citizen</button>
     </form>
 </div>

@@ -10,7 +10,6 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <!-- Enlace para redirigir a la página de creación de ciudadanos -->
     <a href="{{ route('citizens.create') }}" class="btn btn-primary mb-3">Add Citizen</a>
 
     <h2 class="mt-5">Citizen list</h2>
@@ -30,10 +29,8 @@
                 <td>{{ $citizen->age }}</td>
                 <td>{{ $citizen->email }}</td>
                 <td>
-                    <!-- Botón de Editar -->
                     <a href="{{ route('citizens.edit', $citizen->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
-                    <!-- Formulario para eliminar al ciudadano -->
                     <form action="{{ route('citizens.destroy', $citizen->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')

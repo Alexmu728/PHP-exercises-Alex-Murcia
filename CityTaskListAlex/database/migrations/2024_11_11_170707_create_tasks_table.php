@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId("citizen_id")->constrained("citizens")->onDelete("cascade");
-            $table->date("due_date"); // Cambié "datetime" a "due_date" para mayor claridad
-            $table->text("description"); // Recomendación: usar text para descripciones largas
+            $table->date("due_date"); 
+            $table->text("description"); 
             $table->string("title");
             $table->timestamps();
         });

@@ -9,8 +9,6 @@
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
-
-    <!-- Botón para agregar tarea -->
     <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">Add Task</a>
 
     <h2 class="mt-5">Task list</h2>
@@ -38,7 +36,6 @@
                         @endforeach
                     </td>
                     <td>
-                        <!-- Acción de eliminar tarea -->
                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
