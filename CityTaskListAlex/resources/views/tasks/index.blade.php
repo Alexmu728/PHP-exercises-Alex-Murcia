@@ -9,6 +9,14 @@
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+    <form action="{{ route('task.search') }}" method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="keyword" class="form-control" placeholder="Search tasks">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
     <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">Add Task</a>
 
     <h2 class="mt-5">Task list</h2>
@@ -36,6 +44,7 @@
                         @endforeach
                     </td>
                     <td>
+                    <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')

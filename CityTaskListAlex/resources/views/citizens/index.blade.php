@@ -10,6 +10,15 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <form action="{{ route('citizen.search') }}" method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="keyword" class="form-control" placeholder="Search citizens">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
     <a href="{{ route('citizens.create') }}" class="btn btn-primary mb-3">Add Citizen</a>
 
     <h2 class="mt-5">Citizen list</h2>

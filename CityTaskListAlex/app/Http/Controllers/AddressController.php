@@ -13,11 +13,36 @@ class AddressController extends Controller
         $addresses = Address::all(); 
         return view('addresses.index', compact('addresses'));
     }
+
     public function create()
     {
         $citizens = Citizen::all();  
         return view('addresses.create', compact("citizens"));
     }
+
+    public function edit($id)
+    {
+        $address = Address::findOrFail($id);
+        $citizens = Citizen::all(); // Para elegir un ciudadano en caso de que sea editable.
+        return view('addresses.edit', compact('address', 'citizens'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'citizen_id' => 'required|exists:citizens,id',
+            'street' => 'required|string',
+            'city' => 'required|string',
+            'postal_code' => 'required|string',
+        ]);
+
+        $address = Address::findOrFail($id);
+        $address->update($validatedData);
+
+        return redirect()->route('addresses.index')->with('success', 'Address updated successfully');
+    }
+
+
 
     public function store(Request $request)
     {
@@ -37,11 +62,37 @@ class AddressController extends Controller
 
         return redirect()->route('addresses.index')->with('success', 'Address assigned successfully.');
     }
+
     public function destroy(string $id)
     {
         $address = Address::findOrFail($id); 
         $address->delete();
 
         return redirect()->route('addresses.index')->with('success', 'Address deleted successfully');
+    }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'keyword' => 'required|string|max:255',
+        ]);
+
+        $keyword = $request->input('keyword');
+        $addresses = Address::where('street', 'LIKE', "%{$keyword}%")
+                            ->orWhere('city', 'LIKE', "%{$keyword}%")
+                            ->orWhere('state', 'LIKE', "%{$keyword}%")
+                            ->orWhere('zip', 'LIKE', "%{$keyword}%")
+                            ->get();
+
+        return view('addresses.index', compact('addresses'))->with('success', 'Search completed.');
+    }
+
+    public function show($id)
+    {
+        // Buscar la dirección por ID
+        $address = Address::findOrFail($id);
+
+        // Retornar la vista show.blade.php con los datos de la dirección
+        return view('addresses.show', compact('address'));
     }
 }

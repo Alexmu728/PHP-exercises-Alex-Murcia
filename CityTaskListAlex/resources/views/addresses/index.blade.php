@@ -7,6 +7,16 @@
     @if($addresses->isEmpty())
         <p>No addresses found.</p>
     @else
+
+    <form action="{{ route('address.search') }}" method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="keyword" class="form-control" placeholder="Search addresses">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -25,6 +35,7 @@
                         <td>{{ $address->city }}</td>
                         <td>{{ $address->postal_code }}</td>
                         <td>
+                        <a href="{{ route('addresses.edit', $address->id) }}" class="btn btn-warning btn-sm">Edit</a>
                             <form action="{{ route('addresses.destroy', $address->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')

@@ -24,6 +24,36 @@ class TaskController extends Controller
 
     }
 
+    public function edit($id)
+    {
+        $task = Task::findOrFail($id);
+        $citizens = Citizen::all(); 
+        $subjects = Subject::all(); 
+        return view('tasks.edit', compact('task', 'citizens', 'subjects')); 
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'citizen_id' => 'required|exists:citizens,id',
+            'subjects' => 'required|array',
+        ]);
+
+        $task = Task::findOrFail($id);
+        $task->update([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'citizen_id' => $validatedData['citizen_id'],
+        ]);
+
+        $task->subjects()->sync($validatedData['subjects']);
+
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully');
+    }
+
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -54,4 +84,23 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task deleted successfully');
     }
 
+    public function search(Request $request)
+    {
+        $request->validate([
+            'keyword' => 'required|string|max:255',
+        ]);
+
+        $keyword = $request->input('keyword');
+        $tasks = Task::where('title', 'LIKE', "%{$keyword}%")
+                    ->orWhere('description', 'LIKE', "%{$keyword}%")
+                    ->get();
+
+        return view('tasks.index', compact('tasks'))->with('success', 'Search completed.');
+    }
+
+    public function show($id)
+    {
+        $task = Task::findOrFail($id); // Busca la tarea por ID, lanza un error si no se encuentra
+        return view('tasks.show', compact('task')); // Devuelve una vista con los datos de la tarea
+    }
 }

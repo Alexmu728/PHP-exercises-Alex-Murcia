@@ -60,5 +60,28 @@ class CitizenController extends Controller
         $citizen = Citizen::findOrFail($id);
         return view('citizens.edit', compact('citizen'));
     }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'keyword' => 'required|string|max:255',
+        ]);
+
+        $keyword = $request->input('keyword');
+        $citizens = Citizen::where('name', 'LIKE', "%{$keyword}%")
+                            ->orWhere('email', 'LIKE', "%{$keyword}%")
+                            ->orWhere('phone', 'LIKE', "%{$keyword}%")
+                            ->get();
+
+        return view('citizens.index', compact('citizens'))->with('success', 'Search completed.');
+    }
+    public function show($id)
+    {
+        // Buscar el ciudadano por ID
+        $citizen = Citizen::findOrFail($id);
+
+        // Retornar la vista show.blade.php con los datos del ciudadano
+        return view('citizens.show', compact('citizen'));
+    }
 }
 

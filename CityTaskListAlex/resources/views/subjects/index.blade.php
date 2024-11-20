@@ -10,6 +10,15 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <form action="{{ route('subject.search') }}" method="GET" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="keyword" class="form-control" placeholder="Search subjects">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
     <div class="mb-3">
         <a href="{{ route('subjects.create') }}" class="btn btn-primary">Add Subject</a>
     </div>
@@ -28,8 +37,7 @@
                     <td>{{ $subject->name }}</td>
                     <td>{{ $subject->responsible }}</td>
                     <td>
-                        <!-- El botón de editar ha sido eliminado -->
-                        <!-- Formulario para eliminar el sujeto -->
+                    <a href="{{ route('subjects.edit', $subject->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('subjects.destroy', $subject->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
