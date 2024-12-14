@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class HomeController extends Controller
 {
     public function dashboard()
     {
-        $message = auth()->user()->role !== 'student'
-            ? 'Welcome, Teacher or Admin! Here’s your dashboard.'
-            : 'Welcome to your dashboard, Student.';
-        return view('dashboard', compact('message'));
+        return view('dashboard');
     }
 
     public function admin()
     {
-        return view('admin');
+        return view('dashboard.admin');
     }
 
-    public function schoolOrganization()
+    public function teacher()
     {
-        return view('school_organization');
+        return view('dashboard.teacher');
     }
 
-    public function events()
+    public function student()
     {
-        return view('events');
+        return view('dashboard.student');
     }
 }
+

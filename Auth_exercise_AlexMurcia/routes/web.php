@@ -1,45 +1,35 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Gate;
 
-// Ruta para la página principal
 Route::get('/', function () {
-    return view('auth.home');  // Página donde se muestran los formularios de login y registro
+    return view('auth.home');  
+});
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('register', [RegisteredUserController::class, 'store']);
 });
 
-// Ruta para el dashboard (asegúrate de que la ruta esté protegida con middleware de autenticación)
-Route::get('/dashboard', [HomeController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
-// Rutas protegidas para los diferentes roles
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
+
 Route::middleware('auth')->group(function () {
-    // Ruta para la página de administración (solo admin puede acceder)
+
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
     Route::middleware('role:admin')->get('/admin', [HomeController::class, 'admin'])->name('admin');
-
-    // Ruta para la página de organización escolar (solo admin y teachers pueden acceder)
-    Route::middleware('role:admin,teacher')->get('/school_organization', [HomeController::class, 'schoolOrganization'])->name('school_organization');
-
-    // Ruta para los eventos (cualquier rol puede acceder)
-    Route::middleware('role:admin,teacher,student')->get('/events', [HomeController::class, 'events'])->name('events');
-    
-    // Ruta para editar el perfil del usuario
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');  // Esta ruta debe existir en ProfileController
-
-    // Ruta para actualizar el perfil del usuario
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); // Esta ruta debe existir en ProfileController
-
-    // Ruta para eliminar el perfil del usuario (opcional)
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::middleware('role:teacher')->get('/teacher', [HomeController::class, 'teacher'])->name('teacher');
+    Route::middleware('role:student')->get('/student', [HomeController::class, 'student'])->name('student');
 });
 
-// Ruta para el logout
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-
-// Rutas de login y register
-Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('login', [AuthenticatedSessionController::class, 'store']);
-Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-Route::post('register', [RegisteredUserController::class, 'store']);
+Gate::define('is-admin', fn ($user) => $user->role === 'admin');
+Gate::define('is-teacher', fn ($user) => $user->role === 'teacher');
+Gate::define('is-student', fn ($user) => $user->role === 'student');

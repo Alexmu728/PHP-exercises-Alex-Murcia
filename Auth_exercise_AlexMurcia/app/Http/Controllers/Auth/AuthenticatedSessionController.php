@@ -3,44 +3,72 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
-    public function create(): View
+    public function create()
     {
-        return view('auth.login');
+        if (Auth::check()) {
+            return $this->redirectToDashboard(Auth::user());
+        }
+
+        return view('auth.login');  
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->authenticate();
+        $credentials = $request->only('email', 'password');
 
-        $request->session()->regenerate();
+        if (Auth::attempt($credentials)) {
+            return $this->redirectToDashboard(Auth::user());
+        }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $request->session()->flush();
+
+        return back()->withErrors([
+            'email' => 'Credential not matching',
+        ]);
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
+    protected function redirectToDashboard(User $user)
+    {
+        switch ($user->role) {
+            case 'admin':
+                return redirect()->route('admin');
+            case 'teacher':
+                return redirect()->route('teacher');
+            case 'student':
+                return redirect()->route('student');
+            default:
+                return redirect()->route('dashboard');
+        }
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // Aquí puedes definir la redirección dependiendo del rol
+        if ($user->role === 'admin') {
+            return redirect()->route('admin');
+        }
+
+        if ($user->role === 'teacher') {
+            return redirect()->route('teacher');
+        }
+
+        return redirect()->route('student');
+    }
+
     public function destroy(Request $request)
-    {
-        Auth::logout();
+{
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
+    return redirect('/');
 }
+}
+
+

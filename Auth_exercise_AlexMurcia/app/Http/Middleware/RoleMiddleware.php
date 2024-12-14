@@ -10,13 +10,12 @@ class RoleMiddleware
 {
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        $user = Auth::user();
-        
-        if ($user && in_array($user->role, $roles)) {
-            return $next($request);  // Continuar si el rol del usuario es uno de los permitidos
+        if (!Auth::check() || !in_array(Auth::user()->role, $roles)) {
+            return redirect('/dashboard');
         }
 
-        // Redirigir si el usuario no tiene el rol adecuado
-        return redirect('/dashboard')->with('error', 'You do not have permission to access this page.');
+        return $next($request);
     }
 }
+
+
