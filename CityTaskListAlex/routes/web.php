@@ -30,12 +30,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Ruta para el login
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login'); // Aquí se usa showLoginForm en lugar de create
 Route::post('login', [LoginController::class, 'login']); // Usamos login en lugar de store
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-// Registro de usuario
 Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
 Route::post('register', [RegisteredUserController::class, 'store']);
 

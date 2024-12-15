@@ -77,10 +77,8 @@ class CitizenController extends Controller
     }
     public function show($id)
     {
-        // Buscar el ciudadano por ID
         $citizen = Citizen::findOrFail($id);
 
-        // Retornar la vista show.blade.php con los datos del ciudadano
         return view('citizens.show', compact('citizen'));
     }
 }

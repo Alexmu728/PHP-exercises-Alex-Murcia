@@ -10,30 +10,24 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-    // Muestra el formulario de login
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // Procesa el login
     public function login(Request $request)
     {
-        // Validación de las credenciales
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Si la autenticación es exitosa, redirige al dashboard o página deseada
             return redirect()->intended('/dashboard');
         }
 
-        // Si las credenciales son incorrectas, regresa con un error
         return back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.',
+            'email' => 'No matching credentials.',
         ]);
     }
 
-    // Logout
     public function logout(Request $request)
     {
         Auth::logout();

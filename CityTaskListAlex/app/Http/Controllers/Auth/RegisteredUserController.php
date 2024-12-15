@@ -42,16 +42,13 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
-        // Loguea al usuario
         Auth::login($user);
 
-        // Redirige al home después del registro
         return redirect()->route('home');
     }
 
     protected function registered(Request $request, $user)
     {
-        return redirect()->route('home');  // Redirige al home después del registro
+        return redirect()->route('home');  
     }
 }

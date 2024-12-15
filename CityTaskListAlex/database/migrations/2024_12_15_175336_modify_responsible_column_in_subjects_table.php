@@ -12,14 +12,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('subjects', function (Blueprint $table) {
-            $table->integer('responsible')->nullable()->change();  // Hacer la columna nullable
+            $table->integer('responsible')->nullable()->change();  
         });
     }
 
     public function down()
     {
         Schema::table('subjects', function (Blueprint $table) {
-            $table->integer('responsible')->nullable(false)->change();  // Restaurar la columna a no nullable
+            $table->integer('responsible')->nullable(false)->change();  
         });
     }
 

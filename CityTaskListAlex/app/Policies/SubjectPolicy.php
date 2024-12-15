@@ -7,9 +7,7 @@ use App\Models\User;
 
 class SubjectPolicy
 {
-    /**
-     * Determina si el usuario puede crear un nuevo subject.
-     */
+  
     public function create(User $user)
     {
         return $user->isAdmin();

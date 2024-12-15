@@ -13,7 +13,7 @@ class SubjectController extends Controller
     {
         $this->middleware('auth');
     $this->middleware(function ($request, $next) {
-        if (auth()->user()->role_id != 1) { // Verifica si el rol del usuario es 'admin'
+        if (auth()->user()->role_id != 1) { 
             abort(403, 'Acción no autorizada');
         }
         return $next($request);
@@ -33,16 +33,12 @@ class SubjectController extends Controller
 
     public function store(Request $request)
     {
-        // Validación del campo 'name'
         $request->validate([
             'name' => 'required|unique:subjects',
         ]);
     
-        // Asignar un valor predeterminado para 'responsible'
         $data = $request->all();
-        $data['responsible'] = auth()->user()->id;  // Asignar el ID del usuario autenticado como responsable
-    
-        // Crear el nuevo subject
+        $data['responsible'] = auth()->user()->id;  
         Subject::create($data);
     
         return redirect()->route('subjects.index');

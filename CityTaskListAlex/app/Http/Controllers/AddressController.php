@@ -23,7 +23,7 @@ class AddressController extends Controller
     public function edit($id)
     {
         $address = Address::findOrFail($id);
-        $citizens = Citizen::all(); // Para elegir un ciudadano en caso de que sea editable.
+        $citizens = Citizen::all();
         return view('addresses.edit', compact('address', 'citizens'));
     }
 
@@ -89,10 +89,8 @@ class AddressController extends Controller
 
     public function show($id)
     {
-        // Buscar la dirección por ID
         $address = Address::findOrFail($id);
 
-        // Retornar la vista show.blade.php con los datos de la dirección
         return view('addresses.show', compact('address'));
     }
 }

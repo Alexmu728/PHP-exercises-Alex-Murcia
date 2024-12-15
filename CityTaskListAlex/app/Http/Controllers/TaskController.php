@@ -100,7 +100,7 @@ class TaskController extends Controller
 
     public function show($id)
     {
-        $task = Task::findOrFail($id); // Busca la tarea por ID, lanza un error si no se encuentra
-        return view('tasks.show', compact('task')); // Devuelve una vista con los datos de la tarea
+        $task = Task::findOrFail($id); 
+        return view('tasks.show', compact('task')); 
     }
 }
