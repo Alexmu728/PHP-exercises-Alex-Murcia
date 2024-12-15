@@ -1,0 +1,35 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#5226
+    [34mall[39m: [
+      [34;4mApp\Models\LicensePlate[39;24m {#5231
+        [34mid[39m: [35m1[39m,
+        [34mlicense_plate[39m: "[32mABC123[39m",
+        [34mcreated_at[39m: "[32m2024-12-15 19:53:13[39m",
+        [34mupdated_at[39m: "[32m2024-12-15 19:53:13[39m",
+      },
+      [34;4mApp\Models\LicensePlate[39;24m {#5232
+        [34mid[39m: [35m2[39m,
+        [34mlicense_plate[39m: "[32mXYZ456[39m",
+        [34mcreated_at[39m: "[32m2024-12-15 19:53:13[39m",
+        [34mupdated_at[39m: "[32m2024-12-15 19:53:13[39m",
+      },
+      [34;4mApp\Models\LicensePlate[39;24m {#5233
+        [34mid[39m: [35m3[39m,
+        [34mlicense_plate[39m: "[32mLMN789[39m",
+        [34mcreated_at[39m: "[32m2024-12-15 19:53:13[39m",
+        [34mupdated_at[39m: "[32m2024-12-15 19:53:13[39m",
+      },
+      [34;4mApp\Models\LicensePlate[39;24m {#5234
+        [34mid[39m: [35m4[39m,
+        [34mlicense_plate[39m: "[32mPQR012[39m",
+        [34mcreated_at[39m: "[32m2024-12-15 19:53:13[39m",
+        [34mupdated_at[39m: "[32m2024-12-15 19:53:13[39m",
+      },
+      [34;4mApp\Models\LicensePlate[39;24m {#5235
+        [34mid[39m: [35m5[39m,
+        [34mlicense_plate[39m: "[32mDEF012[39m",
+        [34mcreated_at[39m: "[32m2024-12-15 19:55:51[39m",
+        [34mupdated_at[39m: "[32m2024-12-15 19:55:51[39m",
+      },
+    ],
+  }
+
