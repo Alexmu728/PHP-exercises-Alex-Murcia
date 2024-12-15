@@ -9,11 +9,12 @@ class Subject extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name", "responsible"]; // Agregado el campo "responsible"
+    // Define los campos que pueden ser llenados masivamente
+    protected $fillable = ['name', 'created_by'];
 
-    public function tasks()
+    // Relación con el modelo User (quien creó el subject)
+    public function user()
     {
-        return $this->belongsToMany(Task::class, "subject_task");
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
-

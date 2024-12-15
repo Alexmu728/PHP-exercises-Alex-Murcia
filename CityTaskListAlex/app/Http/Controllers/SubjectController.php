@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Subject;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+
 
 class SubjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    $this->middleware(function ($request, $next) {
+        if (auth()->user()->role_id != 1) { // Verifica si el rol del usuario es 'admin'
+            abort(403, 'Acción no autorizada');
+        }
+        return $next($request);
+    });
+    }
+
     public function index()
     {
-        $subjects = Subject::all(); 
-        return view('subjects.index', compact('subjects')); 
+        $subjects = Subject::all();
+        return view('subjects.index', compact('subjects'));
     }
 
     public function create()
@@ -18,61 +31,44 @@ class SubjectController extends Controller
         return view('subjects.create');
     }
 
-    public function edit($id)
-    {
-        $subject = Subject::findOrFail($id);
-        return view('subjects.edit', compact('subject')); 
-    }
-
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'responsible' => 'required|string|max:255',
-        ]);
-
-        $subject = Subject::findOrFail($id);
-        $subject->update($validatedData);
-
-        return redirect()->route('subjects.index')->with('success', 'Subject updated successfully');
-    }
-
-
     public function store(Request $request)
     {
+        // Validación del campo 'name'
         $request->validate([
-            'name' => 'required|string|max:255',
-            'responsible' => 'required|string|max:255',
+            'name' => 'required|unique:subjects',
         ]);
-
-        Subject::create([
-            'name' => $request->name,
-            'responsible' => $request->responsible,
-        ]);
-
-        return redirect()->route('subjects.index')->with('success', 'Subject created successfully.');
-    }
-    public function search(Request $request)
-    {
-        $request->validate([
-            'keyword' => 'required|string|max:255',
-        ]);
-
-        $keyword = $request->input('keyword');
-        $subjects = Subject::where('name', 'LIKE', "%{$keyword}%")
-                        ->orWhere('description', 'LIKE', "%{$keyword}%")
-                        ->get();
-
-        return view('subjects.index', compact('subjects'))->with('success', 'Search completed.');
+    
+        // Asignar un valor predeterminado para 'responsible'
+        $data = $request->all();
+        $data['responsible'] = auth()->user()->id;  // Asignar el ID del usuario autenticado como responsable
+    
+        // Crear el nuevo subject
+        Subject::create($data);
+    
+        return redirect()->route('subjects.index');
     }
 
-    public function show($id)
+    public function edit(Subject $subject)
     {
-        // Buscar el subject por ID
-        $subject = Subject::findOrFail($id);
+        return view('subjects.edit', compact('subject'));
+    }
 
-        // Retornar la vista show.blade.php con los datos del subject
-        return view('subjects.show', compact('subject'));
+    public function update(Request $request, Subject $subject)
+    {
+        $request->validate([
+            'name' => 'required|unique:subjects,name,' . $subject->id,
+        ]);
+
+        $subject->update($request->all());
+
+        return redirect()->route('subjects.index');
+    }
+
+    public function destroy(Subject $subject)
+    {
+        $subject->delete();
+
+        return redirect()->route('subjects.index');
     }
 }
 

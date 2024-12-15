@@ -3,6 +3,11 @@
 @section('title', 'Subjects List')
 
 @section('content')
+
+@if(auth()->user()->isAdmin())
+    <a href="{{ route('subjects.create') }}" class="btn btn-primary">Create Subject</a>
+@endif
+
 <div class="container mt-5">
     <h1>Subjects List</h1>
 
